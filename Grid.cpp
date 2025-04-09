@@ -1,7 +1,7 @@
 #include "Grid.h"
 #include <iostream>
 
-Grid::Grid(int rows, int columns) : rows(rows), columns(columns), currentGrid(rows, std::vector<bool>(columns, false))
+Grid::Grid(int rows, int columns) : rows(rows), columns(columns), gridSize(rows * columns), currentGrid(rows, std::vector<bool>(columns, false))
 {
     DisplayGrid();
 }
@@ -12,19 +12,22 @@ Grid::Grid(std::string filename)
 
 void Grid::DisplayGrid()
 {
+    // Print the top border
+    std::cout << ".";
+    for (int i = 0; i < columns; i++) {
+        std::cout << " .";
+    }
+    std::cout << std::endl;
+
+    // Print the middle part
     for (int i = 0; i < rows; i++) {
+        // For each row print "."
+        std::cout << ".";
         // Declare the string inside outer loop to reset it before the next row
-        std::string s = "";
         for (int j = 0; j < columns; j++) {
-            if (i != rows) { // Check if row ends here
-                if (!currentGrid[i][j]) {
-                    s += " ";
-                }
-                else if (currentGrid[i][j]) {
-                    s += "O";
-                }
-            }
+            char cellStatus = currentGrid[i][j] ? 'O' : ' ';
+            std::cout << cellStatus << ".";
         }
-        std::cout << s << std::endl;
+        std::cout << std::endl;
     }
 }

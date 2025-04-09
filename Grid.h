@@ -14,6 +14,7 @@ public:
 protected:
     int rows;
     int columns;
+    int gridSize;
 
     std::vector<std::vector<bool>> currentGrid;
 };
