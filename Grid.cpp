@@ -2,7 +2,9 @@
 #include <iostream>
 #include <fstream>
 
-Grid::Grid(int rows, int columns) : rows(rows), columns(columns), gridSize(rows * columns), currentGrid(rows, std::vector<bool>(columns, false))
+Grid::Grid(const GameConfig& config) 
+    : rows(config.rows), columns(config.columns), gridSize(config.rows * config.columns), aliveCells(config.aliveCells), 
+      steps(config.steps), currentGrid(config.rows, std::vector<bool>(config.columns, false))
 {
     
 }
