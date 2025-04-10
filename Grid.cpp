@@ -4,7 +4,7 @@
 
 Grid::Grid(int rows, int columns) : rows(rows), columns(columns), gridSize(rows * columns), currentGrid(rows, std::vector<bool>(columns, false))
 {
-    DisplayGrid();
+    
 }
 
 Grid::Grid(std::string filename)
