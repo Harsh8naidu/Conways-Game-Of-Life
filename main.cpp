@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Grid.h"
+#include "ConwaysGameOfLife.h"
 
 int main()
 {
-    Grid* grid = new Grid("Assets/Saves/Grid1.txt");
+    ConwaysGameOfLife* game = new ConwaysGameOfLife();
 }
