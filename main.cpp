@@ -3,5 +3,5 @@
 
 int main()
 {
-    Grid* grid = new Grid(4, 4);
+    Grid* grid = new Grid("Assets/Saves/Grid1.txt");
 }

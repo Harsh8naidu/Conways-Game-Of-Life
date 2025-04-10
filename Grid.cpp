@@ -1,13 +1,31 @@
 #include "Grid.h"
 #include <iostream>
+#include <fstream>
 
 Grid::Grid(int rows, int columns) : rows(rows), columns(columns), gridSize(rows * columns), currentGrid(rows, std::vector<bool>(columns, false))
 {
     DisplayGrid();
 }
 
-Grid::Grid(std::string filename)
+Grid::Grid(std::string filename) : rows(rows), columns(columns), gridSize(rows * columns)
 {
+    std::string output;
+    std::ifstream filestream(filename);
+
+    if (!filestream.is_open()) {
+        std::cerr << "File not found!" << std::endl;
+        return;
+    }
+
+    // Read the filestream and assign the values
+    filestream >> rows;
+    filestream >> columns;
+
+    filestream.close();
+
+    currentGrid = std::vector<std::vector<bool>>(rows, std::vector<bool>(columns, true));
+
+    DisplayGrid();
 }
 
 void Grid::DisplayGrid()
