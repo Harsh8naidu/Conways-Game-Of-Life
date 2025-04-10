@@ -1,5 +1,7 @@
-#include "ConwaysGameOfLife.h"
 #include <iostream>
+
+#include "ConwaysGameOfLife.h"
+#include "Grid.h"
 
 ConwaysGameOfLife::ConwaysGameOfLife()
 {
@@ -37,16 +39,16 @@ void ConwaysGameOfLife::HandleMenuChoice(int choice)
 {
     switch (choice) {
     case 1:
-        std::cout << "Starting Game..." << std::endl;
+        StartGame();
         break;
     case 2:
-        std::cout << "Loading Game..." << std::endl;
+        LoadGame();
         break;
     case 3:
-        std::cout << "Credits..." << std::endl;
+        Credits();
         break;
     case 4:
-        std::cout << "Exiting Game..." << std::endl;
+        ExitGame();
         break;
     default:
         std::cout << std::endl;
@@ -54,4 +56,42 @@ void ConwaysGameOfLife::HandleMenuChoice(int choice)
         int anotherChoice = GetMenuChoiceFromUser();
         HandleMenuChoice(anotherChoice);
     }
+}
+
+void ConwaysGameOfLife::StartGame()
+{
+    std::cout << std::endl;
+    std::cout << "Starting Game..." << std::endl;
+    GameConfig config = GetGameSetupFromUser();
+    Grid* grid = new Grid(config.rows, config.columns);
+}
+
+void ConwaysGameOfLife::LoadGame()
+{
+}
+
+void ConwaysGameOfLife::Credits()
+{
+}
+
+void ConwaysGameOfLife::ExitGame()
+{
+}
+
+GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
+{
+    GameConfig config;
+    std::cout << "Enter number of rows: ";
+    std::cin >> config.rows;
+
+    std::cout << "Enter number of columns: ";
+    std::cin >> config.columns;
+
+    std::cout << "Enter number of alive cells: ";
+    std::cin >> config.aliveCells;
+
+    std::cout << "Enter number of steps: ";
+    std::cin >> config.steps;
+
+    return config;
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GameConfig.h"
+
 class ConwaysGameOfLife {
 public:
     ConwaysGameOfLife();
@@ -12,4 +14,9 @@ protected:
     void DisplayMenuOptions();
     int GetMenuChoiceFromUser();
     void HandleMenuChoice(int choice);
+    void StartGame();
+    void LoadGame();
+    void Credits();
+    void ExitGame();
+    GameConfig GetGameSetupFromUser();
 };
