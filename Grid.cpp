@@ -7,9 +7,8 @@ Grid::Grid(int rows, int columns) : rows(rows), columns(columns), gridSize(rows 
     DisplayGrid();
 }
 
-Grid::Grid(std::string filename) : rows(rows), columns(columns), gridSize(rows * columns)
+Grid::Grid(std::string filename)
 {
-    std::string output;
     std::ifstream filestream(filename);
 
     if (!filestream.is_open()) {
@@ -20,9 +19,9 @@ Grid::Grid(std::string filename) : rows(rows), columns(columns), gridSize(rows *
     // Read the filestream and assign the values
     filestream >> rows;
     filestream >> columns;
-
     filestream.close();
 
+    gridSize = rows * columns;
     currentGrid = std::vector<std::vector<bool>>(rows, std::vector<bool>(columns, true));
 
     DisplayGrid();
