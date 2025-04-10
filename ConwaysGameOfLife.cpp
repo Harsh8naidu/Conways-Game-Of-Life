@@ -63,7 +63,7 @@ void ConwaysGameOfLife::StartGame()
     std::cout << std::endl;
     std::cout << "Starting Game..." << std::endl;
     GameConfig config = GetGameSetupFromUser();
-    Grid* grid = new Grid(config.rows, config.columns);
+    Grid* grid = new Grid(config);
     grid->DisplayGrid();
 }
 
