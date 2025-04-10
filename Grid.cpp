@@ -1,12 +1,14 @@
-#include "Grid.h"
 #include <iostream>
 #include <fstream>
+#include <random>
+
+#include "Grid.h"
 
 Grid::Grid(const GameConfig& config) 
     : rows(config.rows), columns(config.columns), gridSize(config.rows * config.columns), aliveCells(config.aliveCells), 
       steps(config.steps), currentGrid(config.rows, std::vector<bool>(config.columns, false))
 {
-    
+    PlaceAliveCells(); // randomly set alive cells
 }
 
 Grid::Grid(std::string filename)
@@ -48,5 +50,25 @@ void Grid::DisplayGrid()
             std::cout << cellStatus << ".";
         }
         std::cout << std::endl;
+    }
+}
+
+void Grid::PlaceAliveCells()
+{
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<> rowDist(0, rows - 1);
+    std::uniform_int_distribution<> columnDist(0, columns - 1);
+
+    int placed = 0;
+    while (placed < aliveCells) {
+        int r = rowDist(rng);
+        int c = columnDist(rng);
+
+        // Set the cell to true only if it is dead (false)
+        if (!currentGrid[r][c]) {
+            currentGrid[r][c] = true;
+            placed++;
+        }
     }
 }

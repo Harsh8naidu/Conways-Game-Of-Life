@@ -12,6 +12,8 @@ public:
 
     void DisplayGrid();
 
+    void PlaceAliveCells();
+
 protected:
     int rows = 0;
     int columns = 0;
