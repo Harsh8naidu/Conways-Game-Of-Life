@@ -12,7 +12,7 @@ public:
 
     void DisplayGrid();
     void PlaceAliveCells();
-    void CountLiveNeighbours();
+    int CountLiveNeighbours(int row, int column);
     void SimulateStep();
     void RunSimulation(); // Calls SimulateStep() 'steps' times
 

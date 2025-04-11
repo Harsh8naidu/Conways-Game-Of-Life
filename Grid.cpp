@@ -73,7 +73,7 @@ void Grid::PlaceAliveCells()
     }
 }
 
-void Grid::CountLiveNeighbours()
+int Grid::CountLiveNeighbours(int row, int column)
 {
     // Define the 8 offsets for neighbours (row_offset, col_offset)
     int offset[8][2] = {
@@ -81,31 +81,54 @@ void Grid::CountLiveNeighbours()
         {0, -1}, {0, +1},           // Middle-left, Middle-right
         {+1, -1}, {+1, 0}, {+1, +1}  // Bottom-left, Bottom-middle, Bottom-right
     };
-    
-    // Iterate over every cell in the grid
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < columns; j++) {
-            int liveNeighbours = 0; // Count of live neighbours for cell (i, j)
 
-            // Iterate through each neighbour using offsets
-            for (int k = 0; k < 8; k++) {
-                int neighbourRow = i + offset[k][0]; // Calculate neighbour row's
-                int neighbourColumn = j + offset[k][1]; // Calculate neighbour column's
+    int liveNeighbours = 0;
+    // Iterate through each neighbour using offsets
+    for (int k = 0; k < 8; k++) {
+        int neighbourRow = row + offset[k][0]; // Calculate neighbour row's
+        int neighbourColumn = column + offset[k][1]; // Calculate neighbour column's
 
-                // Check if neighbour is within bounds
-                if (neighbourRow >= 0 && neighbourRow < rows && neighbourColumn >= 0 && neighbourColumn < columns) {
-                    if (currentGrid[neighbourRow][neighbourColumn]) {
-                        liveNeighbours++; // Count live neighbours
-                    }
-                }
+        // Check if neighbour is within bounds
+        if (neighbourRow >= 0 && neighbourRow < rows && neighbourColumn >= 0 && neighbourColumn < columns) {
+            if (currentGrid[neighbourRow][neighbourColumn]) {
+                liveNeighbours++; // Count live neighbours
             }
         }
     }
+    return liveNeighbours;
 }
 
 void Grid::SimulateStep()
 {
-    
+    std::vector<std::vector<bool>> nextGrid = std::vector<std::vector<bool>>(rows, std::vector<bool>(columns, false));
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            int liveNeighbours = CountLiveNeighbours(i, j);
+            // if the current cell is alive
+            if (currentGrid[i][j]) {
+                // if an alive cell has fewer than two live neighbours -> dies (underpopulation)
+                if (currentGrid[i][j] && liveNeighbours < 2) {
+                    nextGrid[i][j] = false;
+                }
+                // if an alive cell has two or three live neighbours -> lives
+                else if (currentGrid[i][j] && (liveNeighbours == 2 || liveNeighbours == 3)) {
+                    nextGrid[i][j] = true;
+                }
+                // if an live cell has more than three live neighbours -> dies (overpopulation)
+                else if (currentGrid[i][j] && liveNeighbours > 3) {
+                    nextGrid[i][j] = false;
+                }
+            }
+            // if a dead cell has exactly three live neighbours -> becomes live cell (reproduction)
+            else if (!currentGrid[i][j] && liveNeighbours == 3) {
+                nextGrid[i][j] = true;
+            }
+            
+        }
+    }
+
+    currentGrid = nextGrid;
 }
 
 void Grid::RunSimulation()
