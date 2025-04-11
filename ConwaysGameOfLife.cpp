@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "ConwaysGameOfLife.h"
-#include "Grid.h"
 
 ConwaysGameOfLife::ConwaysGameOfLife()
 {
@@ -62,9 +61,10 @@ void ConwaysGameOfLife::StartGame()
 {
     std::cout << std::endl;
     std::cout << "Starting Game..." << std::endl;
-    GameConfig config = GetGameSetupFromUser();
-    Grid* grid = new Grid(config);
+    config = GetGameSetupFromUser();
+    grid = new Grid(config);
     grid->DisplayGrid();
+    grid->RunSimulation();
 }
 
 void ConwaysGameOfLife::LoadGame()
@@ -82,7 +82,6 @@ void ConwaysGameOfLife::ExitGame()
 
 GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
 {
-    GameConfig config;
     std::cout << "Enter number of rows: ";
     std::cin >> config.rows;
 

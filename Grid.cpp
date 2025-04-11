@@ -72,3 +72,42 @@ void Grid::PlaceAliveCells()
         }
     }
 }
+
+void Grid::CountLiveNeighbours()
+{
+    // Define the 8 offsets for neighbours (row_offset, col_offset)
+    int offset[8][2] = {
+        {-1, -1}, {-1, 0}, {-1, +1}, // Top-left, Top-middle, Top-right
+        {0, -1}, {0, +1},           // Middle-left, Middle-right
+        {+1, -1}, {+1, 0}, {+1, +1}  // Bottom-left, Bottom-middle, Bottom-right
+    };
+    
+    // Iterate over every cell in the grid
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            int liveNeighbours = 0; // Count of live neighbours for cell (i, j)
+
+            // Iterate through each neighbour using offsets
+            for (int k = 0; k < 8; k++) {
+                int neighbourRow = i + offset[k][0]; // Calculate neighbour row's
+                int neighbourColumn = j + offset[k][1]; // Calculate neighbour column's
+
+                // Check if neighbour is within bounds
+                if (neighbourRow >= 0 && neighbourRow < rows && neighbourColumn >= 0 && neighbourColumn < columns) {
+                    if (currentGrid[neighbourRow][neighbourColumn]) {
+                        liveNeighbours++; // Count live neighbours
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Grid::SimulateStep()
+{
+    
+}
+
+void Grid::RunSimulation()
+{
+}

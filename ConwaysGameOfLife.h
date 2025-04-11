@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameConfig.h"
+#include "Grid.h"
 
 class ConwaysGameOfLife {
 public:
@@ -8,15 +8,18 @@ public:
     ~ConwaysGameOfLife();
 
     void MainMenu();
-
-protected:
-
-    void DisplayMenuOptions();
-    int GetMenuChoiceFromUser();
-    void HandleMenuChoice(int choice);
     void StartGame();
     void LoadGame();
     void Credits();
     void ExitGame();
+
+protected:
+    GameConfig config;
+    Grid* grid = nullptr;
+
+    void DisplayMenuOptions();
+    int GetMenuChoiceFromUser();
+    void HandleMenuChoice(int choice);
+
     GameConfig GetGameSetupFromUser();
 };

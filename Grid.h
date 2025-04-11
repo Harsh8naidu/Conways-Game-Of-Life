@@ -11,8 +11,10 @@ public:
     ~Grid();
 
     void DisplayGrid();
-
     void PlaceAliveCells();
+    void CountLiveNeighbours();
+    void SimulateStep();
+    void RunSimulation(); // Calls SimulateStep() 'steps' times
 
 protected:
     int rows = 0;
