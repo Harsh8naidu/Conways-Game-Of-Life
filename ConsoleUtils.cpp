@@ -1,5 +1,5 @@
 #include "ConsoleUtils.h"
-#include <iostream>
+#include <cstdlib>
 
 void ClearConsole()
 {
