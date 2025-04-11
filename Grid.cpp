@@ -134,8 +134,21 @@ void Grid::SimulateStep()
 void Grid::RunSimulation()
 {
     for (int i = 0; i < steps; i++) {
+        ClearConsole(); // Clear the console before printing the next grid
         SimulateStep();
         DisplayGrid();
         std::cout << std::endl;
     }
+}
+
+void Grid::ClearConsole()
+{
+    // Clear the console for the depending on the OS
+#if defined (_WIN32)
+    system("cls");
+#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+    system("clear");
+#elif defined (__APPLE__)
+    system("clear");
+#endif
 }
