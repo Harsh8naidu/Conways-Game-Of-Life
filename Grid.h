@@ -15,7 +15,6 @@ public:
     int CountLiveNeighbours(int row, int column);
     void SimulateStep();
     void RunSimulation(); // Calls SimulateStep() 'steps' times
-    void ClearConsole();
 
 protected:
     int rows = 0;

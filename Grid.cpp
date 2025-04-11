@@ -1,8 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <random>
+#include <chrono>
 
 #include "Grid.h"
+#include "ConsoleUtils.h"
 
 Grid::Grid(const GameConfig& config) 
     : rows(config.rows), columns(config.columns), gridSize(config.rows * config.columns), aliveCells(config.aliveCells), 
@@ -139,16 +141,4 @@ void Grid::RunSimulation()
         DisplayGrid();
         std::cout << std::endl;
     }
-}
-
-void Grid::ClearConsole()
-{
-    // Clear the console for the depending on the OS
-#if defined (_WIN32)
-    system("cls");
-#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-    system("clear");
-#elif defined (__APPLE__)
-    system("clear");
-#endif
 }
