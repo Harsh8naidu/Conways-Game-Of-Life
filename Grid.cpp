@@ -2,6 +2,7 @@
 #include <fstream>
 #include <random>
 #include <chrono>
+#include <thread>
 
 #include "Grid.h"
 #include "ConsoleUtils.h"
@@ -133,10 +134,11 @@ void Grid::SimulateStep()
     currentGrid = nextGrid;
 }
 
-void Grid::RunSimulation()
+void Grid::RunSimulation(int delayMs)
 {
     for (int i = 0; i < steps; i++) {
         ClearConsole(); // Clear the console before printing the next grid
+        std::this_thread::sleep_for(std::chrono::milliseconds(delayMs));
         SimulateStep();
         DisplayGrid();
         std::cout << std::endl;

@@ -14,7 +14,7 @@ public:
     void PlaceAliveCells();
     int CountLiveNeighbours(int row, int column);
     void SimulateStep();
-    void RunSimulation(); // Calls SimulateStep() 'steps' times
+    void RunSimulation(int delayMs = 600); // Calls SimulateStep() 'steps' times
 
 protected:
     int rows = 0;
