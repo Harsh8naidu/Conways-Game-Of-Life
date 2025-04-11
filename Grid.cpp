@@ -133,4 +133,9 @@ void Grid::SimulateStep()
 
 void Grid::RunSimulation()
 {
+    for (int i = 0; i < steps; i++) {
+        SimulateStep();
+        DisplayGrid();
+        std::cout << std::endl;
+    }
 }

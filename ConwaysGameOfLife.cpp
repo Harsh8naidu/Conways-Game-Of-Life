@@ -65,12 +65,7 @@ void ConwaysGameOfLife::StartGame()
     grid = new Grid(config);
     grid->DisplayGrid();
     std::cout << std::endl;
-    // Iterate steps number of times
-    for (int i = 0; i < config.steps; i++) {
-        grid->SimulateStep();
-        grid->DisplayGrid();
-        std::cout << std::endl;
-    }
+    grid->RunSimulation();
 }
 
 void ConwaysGameOfLife::LoadGame()
