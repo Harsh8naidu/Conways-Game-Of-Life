@@ -3,5 +3,5 @@
 
 int main()
 {
-    ConwaysGameOfLife* game = new ConwaysGameOfLife();
+    std::unique_ptr<ConwaysGameOfLife> game = std::make_unique<ConwaysGameOfLife>();
 }

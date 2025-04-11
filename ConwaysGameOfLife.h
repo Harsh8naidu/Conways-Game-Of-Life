@@ -5,7 +5,6 @@
 class ConwaysGameOfLife {
 public:
     ConwaysGameOfLife();
-    ~ConwaysGameOfLife();
 
     void MainMenu();
     void StartGame();
