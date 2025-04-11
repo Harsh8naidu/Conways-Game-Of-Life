@@ -136,9 +136,18 @@ void Grid::SimulateStep()
 
 void Grid::RunSimulation(int delayMs)
 {
+    auto previousTime = std::chrono::high_resolution_clock::now();
+
     for (int i = 0; i < steps; i++) {
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float> elapsed = currentTime - previousTime;
+
+        if (elapsed.count() < delayMs / 1000.0f) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(delayMs) - elapsed);
+        }
+
+        previousTime = std::chrono::high_resolution_clock::now();
         ClearConsole(); // Clear the console before printing the next grid
-        std::this_thread::sleep_for(std::chrono::milliseconds(delayMs));
         SimulateStep();
         DisplayGrid();
         std::cout << std::endl;
