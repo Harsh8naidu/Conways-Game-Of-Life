@@ -4,7 +4,7 @@
 
 ConwaysGameOfLife::ConwaysGameOfLife()
 {
-    MainMenu();
+    
 }
 
 void ConwaysGameOfLife::MainMenu()
