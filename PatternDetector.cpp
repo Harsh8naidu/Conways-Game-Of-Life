@@ -82,7 +82,7 @@ bool PatternDetector::ContainsPattern(const std::vector<std::vector<bool>>& grid
                 }
             }
 
-            if (found) return false;
+            if (found) return true;
         }
     }
 
