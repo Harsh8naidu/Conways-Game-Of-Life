@@ -6,9 +6,9 @@
 namespace PatternDetector {
     bool ContainsPattern(const std::vector<std::vector<bool>>& grid, std::string pattern);
 
-    std::unordered_map<std::string, std::vector<std::pair<int, int>>> patternOffsets;
+    extern const std::unordered_map<std::string, std::vector<std::pair<int, int>>> patternOffsets;
 
-    std::vector<std::string> GetAvailablePatterns();
+    const std::vector<std::string> GetAvailablePatterns();
 
     extern const std::vector<std::pair<int, int>> blockOffsets;
     extern const std::vector<std::pair<int, int>> beehiveOffsets;

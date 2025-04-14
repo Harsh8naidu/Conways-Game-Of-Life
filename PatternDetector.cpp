@@ -25,7 +25,7 @@ const std::vector<std::pair<int, int>> PatternDetector::lwssOffsets = {
     {0,0}, {0,1}, {1,0}, {1,1}
 };
 
-static const std::unordered_map<std::string, std::vector<std::pair<int, int>>> patternOffsets = {
+const std::unordered_map<std::string, std::vector<std::pair<int, int>>> PatternDetector::patternOffsets = {
     {"block", PatternDetector::blockOffsets},
     {"beehive", PatternDetector::beehiveOffsets},
     {"blinker", PatternDetector::blinkerOffsets},
@@ -34,7 +34,7 @@ static const std::unordered_map<std::string, std::vector<std::pair<int, int>>> p
     {"lwss", PatternDetector::lwssOffsets}
 };
 
-std::vector<std::string> PatternDetector::GetAvailablePatterns()
+const std::vector<std::string> PatternDetector::GetAvailablePatterns()
 {
     std::vector<std::string> availablePatterns;
     availablePatterns.reserve(patternOffsets.size());

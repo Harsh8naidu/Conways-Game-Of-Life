@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ConwaysGameOfLife.h"
+#include "PatternDetector.h"
 
 ConwaysGameOfLife::ConwaysGameOfLife()
 {
@@ -86,15 +87,30 @@ GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
 {
     GameConfig gameConfig;
 
-    std::string yorn;
+    std::string ans;
     std::cout << "Do you want to search for a pattern? (y/n): ";
-    std::cin >> yorn;
+    std::cin >> ans;
 
-    if (yorn == "y") {
+    if (ans == "y") {
+        std::vector<std::string> patterns = PatternDetector::GetAvailablePatterns();
+
+        std::cout << "Available patterns are: ";
+        for (const auto& p : patterns) {
+            std::cout << p << " ";
+        }
+        std::cout << std::endl;
+
         std::cout << "Enter the name of the pattern: ";
         std::cin >> gameConfig.pattern;
 
-        
+        // check if the pattern is valid and exists
+        bool isValid = std::find(patterns.begin(), patterns.end(), gameConfig.pattern) != patterns.end();
+
+        while (!isValid) {
+            std::cout << "Invalid pattern. Please enter a valid pattern name: ";
+            std::cin >> gameConfig.pattern;
+            isValid = std::find(patterns.begin(), patterns.end(), gameConfig.pattern) != patterns.end();
+        }
     }
 
     std::cout << "Enter number of rows: ";
