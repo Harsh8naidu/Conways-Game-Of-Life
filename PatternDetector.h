@@ -16,4 +16,7 @@ namespace PatternDetector {
     extern const std::vector<std::pair<int, int>> toadOffsets;
     extern const std::vector<std::pair<int, int>> gliderOffsets;
     extern const std::vector<std::pair<int, int>> lwssOffsets;
+    extern const std::vector<std::pair<int, int>> pulsarOffsets;
+    extern const std::vector<std::pair<int, int>> gliderGunOffsets;
+    extern const std::vector<std::pair<int, int>> diehardOffsets;
 }
