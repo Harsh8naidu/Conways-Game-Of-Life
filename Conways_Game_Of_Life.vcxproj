@@ -129,9 +129,11 @@
   <ItemGroup>
     <ClCompile Include="ConsoleUtils.cpp" />
     <ClCompile Include="ConwaysGameOfLife.cpp" />
+    <ClCompile Include="PatternDetector.cpp" />
     <ClInclude Include="ConwaysGameOfLife.h" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClInclude Include="PatternDetector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleUtils.h" />

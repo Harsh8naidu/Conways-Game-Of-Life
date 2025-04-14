@@ -61,6 +61,8 @@ void ConwaysGameOfLife::StartGame()
 {
     std::cout << std::endl;
     std::cout << "Starting Game..." << std::endl;
+    
+
     config = GetGameSetupFromUser();
     grid = new Grid(config);
     grid->DisplayGrid();
@@ -83,17 +85,28 @@ void ConwaysGameOfLife::ExitGame()
 
 GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
 {
+    GameConfig gameConfig;
+
+    std::string yorn;
+    std::cout << "Do you want to search for a pattern? (y/n): ";
+    std::cin >> yorn;
+
+    if (yorn == "y") {
+        std::cout << "Enter the name of the pattern: ";
+        std::cin >> gameConfig.pattern;
+    }
+
     std::cout << "Enter number of rows: ";
-    std::cin >> config.rows;
+    std::cin >> gameConfig.rows;
 
     std::cout << "Enter number of columns: ";
-    std::cin >> config.columns;
+    std::cin >> gameConfig.columns;
 
     std::cout << "Enter number of alive cells: ";
-    std::cin >> config.aliveCells;
+    std::cin >> gameConfig.aliveCells;
 
     std::cout << "Enter number of steps: ";
-    std::cin >> config.steps;
+    std::cin >> gameConfig.steps;
 
-    return config;
+    return gameConfig;
 }
