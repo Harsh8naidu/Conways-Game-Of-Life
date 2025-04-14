@@ -1,4 +1,5 @@
 #include "PatternDetector.h"
+#include <iostream>
 
 const std::vector<std::pair<int, int>> PatternDetector::blockOffsets = {
     {0,0}, {0,1}, {1,0}, {1,1}
@@ -32,6 +33,16 @@ static const std::unordered_map<std::string, std::vector<std::pair<int, int>>> p
     {"glider", PatternDetector::gliderOffsets},
     {"lwss", PatternDetector::lwssOffsets}
 };
+
+std::vector<std::string> PatternDetector::GetAvailablePatterns()
+{
+    std::vector<std::string> availablePatterns;
+    availablePatterns.reserve(patternOffsets.size());
+    for (const auto& it : patternOffsets) {
+        availablePatterns.emplace_back(it.first);
+    }
+    return availablePatterns;
+}
 
 bool PatternDetector::ContainsPattern(const std::vector<std::vector<bool>>& grid, std::string pattern)
 {

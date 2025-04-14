@@ -8,6 +8,8 @@ namespace PatternDetector {
 
     std::unordered_map<std::string, std::vector<std::pair<int, int>>> patternOffsets;
 
+    std::vector<std::string> GetAvailablePatterns();
+
     extern const std::vector<std::pair<int, int>> blockOffsets;
     extern const std::vector<std::pair<int, int>> beehiveOffsets;
     extern const std::vector<std::pair<int, int>> blinkerOffsets;

@@ -61,10 +61,9 @@ void ConwaysGameOfLife::StartGame()
 {
     std::cout << std::endl;
     std::cout << "Starting Game..." << std::endl;
-    
-
     config = GetGameSetupFromUser();
     grid = new Grid(config);
+    bool isPatternSearch = !config.pattern.empty();
     grid->DisplayGrid();
     std::cout << std::endl;
     grid->RunSimulation();
@@ -94,6 +93,8 @@ GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
     if (yorn == "y") {
         std::cout << "Enter the name of the pattern: ";
         std::cin >> gameConfig.pattern;
+
+        
     }
 
     std::cout << "Enter number of rows: ";
