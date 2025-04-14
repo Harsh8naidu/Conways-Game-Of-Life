@@ -8,7 +8,8 @@ class Grid {
 public:
     Grid(const GameConfig& config);
     Grid(std::string filename);
-    ~Grid();
+
+    const std::vector<std::vector<bool>>& GetCurrentGrid() const { return currentGrid; };
 
     void DisplayGrid();
     void PlaceAliveCells();

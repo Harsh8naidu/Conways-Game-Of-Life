@@ -7,4 +7,5 @@ struct GameConfig {
     int aliveCells;
     int steps;
     std::string pattern;
+    int maxAttempts;
 };

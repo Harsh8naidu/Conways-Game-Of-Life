@@ -2,6 +2,7 @@
 
 #include "ConwaysGameOfLife.h"
 #include "PatternDetector.h"
+#include "ExperimentManager.h"
 
 ConwaysGameOfLife::ConwaysGameOfLife()
 {
@@ -62,9 +63,16 @@ void ConwaysGameOfLife::StartGame()
 {
     std::cout << std::endl;
     std::cout << "Starting Game..." << std::endl;
+
     config = GetGameSetupFromUser();
+    
+    if (!config.pattern.empty()) {
+        ExperimentManager experiment(config);
+        experiment.RunExperiement();
+        return;
+    }
+
     grid = new Grid(config);
-    bool isPatternSearch = !config.pattern.empty();
     grid->DisplayGrid();
     std::cout << std::endl;
     grid->RunSimulation();
@@ -94,9 +102,9 @@ GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
     if (ans == "y") {
         std::vector<std::string> patterns = PatternDetector::GetAvailablePatterns();
 
-        std::cout << "Available patterns are: ";
+        std::cout << "Available patterns are: " << std::endl;
         for (const auto& p : patterns) {
-            std::cout << p << " ";
+            std::cout << "> " << p << " " << std::endl;
         }
         std::cout << std::endl;
 
@@ -111,6 +119,9 @@ GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
             std::cin >> gameConfig.pattern;
             isValid = std::find(patterns.begin(), patterns.end(), gameConfig.pattern) != patterns.end();
         }
+
+        std::cout << "Please enter the number of experiments you'd like to run: ";
+        std::cin >> gameConfig.maxAttempts;
     }
 
     std::cout << "Enter number of rows: ";
@@ -122,8 +133,10 @@ GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
     std::cout << "Enter number of alive cells: ";
     std::cin >> gameConfig.aliveCells;
 
-    std::cout << "Enter number of steps: ";
-    std::cin >> gameConfig.steps;
+    if (ans != "y") {
+        std::cout << "Enter number of steps: ";
+        std::cin >> gameConfig.steps;
+    }
 
     return gameConfig;
 }
