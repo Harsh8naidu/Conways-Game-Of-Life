@@ -8,7 +8,6 @@ public:
     bool RunExperiement();
 
 private:
-    int currentAttempt = 0;
     Grid grid;
     GameConfig config;
 };

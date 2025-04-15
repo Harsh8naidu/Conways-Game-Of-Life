@@ -6,18 +6,17 @@
 ExperimentManager::ExperimentManager(const GameConfig& config) : config(config), grid(config) {}
 
 bool ExperimentManager::RunExperiement() {
-    int attemptCourt = 0;
+    int attemptCount = 0;
     
-    while (attemptCourt < config.maxAttempts) {
-        grid.RunSimulation();
+    while (attemptCount < config.maxAttempts) {
+        grid.SimulateAndDisplayStep(300);
 
         if (PatternDetector::ContainsPattern(grid.GetCurrentGrid(), config.pattern)) {
-            std::cout << "Pattern found after " << attemptCourt << "attempts!\n";
-            grid.DisplayGrid();
+            std::cout << config.pattern << " found after " << attemptCount << "attempts!\n";
             return true;
         }
 
-        ++attemptCourt;
+        ++attemptCount;
     }
 
     std::cout << "Pattern not found after max attempts.\n";

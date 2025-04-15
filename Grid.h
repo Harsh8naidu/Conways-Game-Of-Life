@@ -17,6 +17,8 @@ public:
     void SimulateStep();
     void RunSimulation(int delayMs = 300); // Calls SimulateStep() 'steps' times
 
+    void SimulateAndDisplayStep(int delayMs);
+
 protected:
     int rows = 0;
     int columns = 0;
