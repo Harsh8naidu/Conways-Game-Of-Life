@@ -46,7 +46,8 @@ const std::unordered_map<std::string, std::vector<std::pair<int, int>>> PatternD
     {"glider", PatternDetector::gliderOffsets},
     {"lwss", PatternDetector::lwssOffsets},
     {"pulsar", PatternDetector::pulsarOffsets},
-    {"glider gun", PatternDetector::diehardOffsets}
+    {"glider gun", PatternDetector::gliderGunOffsets},
+    {"diehard", PatternDetector::diehardOffsets}
 };
 
 const std::vector<std::string> PatternDetector::GetAvailablePatterns()
