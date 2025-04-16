@@ -13,4 +13,6 @@ private:
     Grid grid;
     GameConfig config;
     std::vector<std::vector<std::vector<bool>>> gridHistory;
+
+    void SaveHistoryToFile(const std::string& filename);
 };
