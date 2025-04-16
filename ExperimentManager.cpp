@@ -11,7 +11,7 @@
 
 ExperimentManager::ExperimentManager(const GameConfig& config) : config(config), grid(config) {}
 
-bool ExperimentManager::RunExperiement() {
+bool ExperimentManager::RunExperiment() {
     int attemptCount = 0;
     int extraAttempts = 5;
     
