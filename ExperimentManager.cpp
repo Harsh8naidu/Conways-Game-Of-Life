@@ -88,7 +88,6 @@ void ExperimentManager::SaveExperimentToFile(const std::string& filename) {
             for (bool cell : row) {
                 char c = cell ? '1' : '0';
                 outFile << c << " ";
-                outFile.write(&c, sizeof(char));
             }
             outFile << "\n"; // End of row
         }
