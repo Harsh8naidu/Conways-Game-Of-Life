@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+
 #include "Grid.h"
 #include "GameConfig.h"
 
@@ -10,4 +12,5 @@ public:
 private:
     Grid grid;
     GameConfig config;
+    std::vector<std::vector<std::vector<bool>>> gridHistory;
 };

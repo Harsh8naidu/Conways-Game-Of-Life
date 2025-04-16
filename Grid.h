@@ -12,6 +12,7 @@ public:
     const std::vector<std::vector<bool>>& GetCurrentGrid() const { return currentGrid; };
 
     void DisplayGrid();
+    static void DisplayGrid(const std::vector<std::vector<bool>>& gridToDisplay);
     void PlaceAliveCells();
     int CountLiveNeighbours(int row, int column);
     void SimulateStep();

@@ -56,6 +56,30 @@ void Grid::DisplayGrid()
     }
 }
 
+void Grid::DisplayGrid(const std::vector<std::vector<bool>>& gridToDisplay)
+{
+    int rows = gridToDisplay.size();
+    if (rows == 0) return;
+
+    int columns = gridToDisplay[0].size();
+
+    std::cout << ".";
+    for (int i = 0; i < columns; i++) {
+        std::cout << " .";
+    }
+    std::cout << std::endl;
+
+    for (int i = 0; i < rows; i++) {
+        std::cout << ".";
+        for (int j = 0; j < columns; j++) {
+            char cellStatus = gridToDisplay[i][j] ? 'O' : ' ';
+            std::cout << cellStatus << ".";
+        }
+        std::cout << std::endl;
+    }
+}
+
+
 void Grid::PlaceAliveCells()
 {
     std::random_device dev;
