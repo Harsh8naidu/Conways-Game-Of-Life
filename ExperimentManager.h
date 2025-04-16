@@ -7,7 +7,7 @@
 class ExperimentManager {
 public:
     ExperimentManager(const GameConfig& config);
-    bool RunExperiement();
+    bool RunExperiment();
 
 private:
     Grid grid;

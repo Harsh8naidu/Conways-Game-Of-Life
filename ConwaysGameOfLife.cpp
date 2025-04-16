@@ -68,7 +68,7 @@ void ConwaysGameOfLife::StartGame()
     
     if (!config.pattern.empty()) {
         ExperimentManager experiment(config);
-        experiment.RunExperiement();
+        experiment.RunExperiment();
         return;
     }
 
