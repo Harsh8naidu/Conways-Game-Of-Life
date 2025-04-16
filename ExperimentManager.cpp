@@ -62,7 +62,7 @@ bool ExperimentManager::RunExperiment() {
                     if (ans.size() < 4 || ans.substr(ans.size() - 4) != ".txt") {
                         ans += ".txt";
                     }
-                    SaveHistoryToFile("Assets/Saves/" + ans);
+                    SaveExperimentToFile("Assets/Saves/" + ans);
                 }
                 
                 return true;
@@ -76,7 +76,7 @@ bool ExperimentManager::RunExperiment() {
     return false;
 }
 
-void ExperimentManager::SaveHistoryToFile(const std::string& filename) {
+void ExperimentManager::SaveExperimentToFile(const std::string& filename) {
     std::ofstream outFile(filename);
     if (!outFile) {
         std::cerr << "Failed to open file for writing: " << filename << "\n";
