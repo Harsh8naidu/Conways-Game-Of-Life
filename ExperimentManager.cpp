@@ -62,7 +62,7 @@ bool ExperimentManager::RunExperiment() {
                     if (ans.size() < 4 || ans.substr(ans.size() - 4) != ".txt") {
                         ans += ".txt";
                     }
-                    SaveHistoryToFile(ans);
+                    SaveHistoryToFile("Assets/Saves/" + ans);
                 }
                 
                 return true;
