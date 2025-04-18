@@ -1,4 +1,5 @@
 #include <iostream>
+#include <filesystem>
 
 #include "ConwaysGameOfLife.h"
 #include "PatternDetector.h"
@@ -80,6 +81,11 @@ void ConwaysGameOfLife::StartGame()
 
 void ConwaysGameOfLife::LoadGame()
 {
+    std::string filename = AskUserForSaveFile();
+    GameConfig config = DefaultGameConfig();
+    ExperimentManager experiment(config);
+    experiment.LoadExperimentFromFile(filename);
+    experiment.DisplayLoadedExperiment();
 }
 
 void ConwaysGameOfLife::Credits()
@@ -89,6 +95,19 @@ void ConwaysGameOfLife::Credits()
 void ConwaysGameOfLife::ExitGame()
 {
     
+}
+
+GameConfig ConwaysGameOfLife::DefaultGameConfig()
+{
+    GameConfig defaultConfig;
+    defaultConfig.rows = 10;
+    defaultConfig.columns = 10;
+    defaultConfig.aliveCells = 5;
+    defaultConfig.steps = 1;
+    defaultConfig.pattern = "";
+    defaultConfig.maxAttempts = 10;
+
+    return defaultConfig;
 }
 
 GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
@@ -139,4 +158,30 @@ GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
     }
 
     return gameConfig;
+}
+
+std::string ConwaysGameOfLife::AskUserForSaveFile() 
+{
+    // List all the save files in the Saves directory
+    std::filesystem::path directoryPath = "Assets/Saves/";
+
+    if (exists(directoryPath) && is_directory(directoryPath)) {
+        std::cout << "\nSaved Experiments: \n" << std::endl;
+        // Loop through each item/file in the directory
+        for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
+            std::cout << entry.path().filename() << std::endl;
+        }
+    }
+    else {
+        std::cerr << "Directory not found." << std::endl;
+        return "";
+    }
+
+    std::string filename;
+    std::cout << "\nPlease enter the name of the experiment you'd like to access: ";
+    std::cin >> filename;
+    std::cout << std::endl;
+
+    std::filesystem::path fullPath = directoryPath / filename;
+    return fullPath.string();
 }

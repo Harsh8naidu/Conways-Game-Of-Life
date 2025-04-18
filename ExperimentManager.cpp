@@ -3,6 +3,7 @@
 #include <chrono>
 #include <string>
 #include <fstream>
+#include <sstream>
 
 #include "ExperimentManager.h"
 #include "PatternDetector.h"
@@ -83,6 +84,10 @@ void ExperimentManager::SaveExperimentToFile(const std::string& filename) {
         return;
     }
 
+    // Save config data
+    SerializeConfig(outFile);
+
+    // Save grid history for the experiment
     for (const auto& snapshot : gridHistory) {
         for (const auto& row : snapshot) {
             for (bool cell : row) {
@@ -94,6 +99,101 @@ void ExperimentManager::SaveExperimentToFile(const std::string& filename) {
         outFile << "---\n"; // Separator between steps
     }
 
-    std::cout << std::endl;
-    std::cout << "Saved experiment to " << filename << "\n";
+    std::cout << "\nSaved experiment to " << filename << "\n";
+}
+
+void ExperimentManager::LoadExperimentFromFile(const std::string& filename) {
+    std::ifstream inFile(filename);
+
+    if (!inFile.is_open()) {
+        std::cerr << "Failed to load save!" << std::endl;
+        return;
+    }
+
+    std::string str;
+    std::vector<std::vector<bool>> snapshot;
+    bool readingConfig = false;
+
+    while (std::getline(inFile, str)) {
+        if (str == "#CONFIG") {
+            DeserializeConfig(inFile);
+        } else if (str == "---") { // Separator between simulation steps
+            std::cout << "snapshot pushed in gridhistory" << std::endl;
+            gridHistory.push_back(snapshot);
+            snapshot.clear();
+        } else if (!str.empty() && (str.find('1') != std::string::npos || str.find('0') != std::string::npos)) {
+            std::istringstream ss(str);
+            std::vector<bool> row;
+            char c;
+            while (ss >> c) {
+                // Convert character '1' and '0' into a bool with this little trick
+                row.push_back(c == '1');
+            }
+            snapshot.push_back(row);
+        }
+    }
+
+    // if file doesn't end with ---
+    if (!snapshot.empty()) {
+        gridHistory.push_back(snapshot);
+    }
+
+    std::cout << "Grid History size: " << gridHistory.size() << std::endl;
+}
+
+void ExperimentManager::SerializeConfig(std::ofstream& outFile) const {
+    outFile << "#CONFIG\n";
+    outFile << "rows: " << config.rows << "\n";
+    outFile << "columns: " << config.columns << "\n";
+    outFile << "aliveCells: " << config.aliveCells << "\n";
+    outFile << "steps: " << config.steps << "\n";
+    outFile << "pattern: " << config.pattern << "\n";
+    outFile << "maxAttempts: " << config.maxAttempts << "\n";
+    outFile << "#ENDCONFIG\n";
+}
+
+void ExperimentManager::DeserializeConfig(std::ifstream& inFile) {
+    std::string str;
+    while (std::getline(inFile, str)) {
+        if (str == "ENDCONFIG") break;
+
+        std::istringstream iss(str);
+        std::string key;
+        if (std::getline(iss, key, ':')) { // ex: "row: 20"
+            std::string value;
+            std::getline(iss, value);
+            value.erase(0, value.find_first_not_of(" \t")); // Trim leading whitespaces; ex: " 20" to "20"
+            
+            if (key == "rows") config.rows = std::stoi(value);
+            else if (key == "columns") config.columns = std::stoi(value);
+            else if (key == "aliveCells") config.aliveCells = std::stoi(value);
+            else if (key == "steps") config.steps = std::stoi(value);
+            else if (key == "pattern") config.pattern = value;
+            else if (key == "maxAttempts") config.maxAttempts = std::stoi(value);
+        }
+    }
+
+    // If needed later Grid can be created from the loaded config
+    //grid = Grid(config);
+}
+
+void ExperimentManager::DisplayLoadedExperiment() const {
+    std::cout << "Loaded Config:\n" << std::endl;
+    std::cout << "Rows: " << config.rows << "\n";
+    std::cout << "Columns: " << config.columns << "\n";
+    std::cout << "Alive Cells: " << config.aliveCells << "\n";
+    std::cout << "Steps: " << config.steps << "\n";
+    std::cout << "Pattern: " << config.pattern << "\n";
+    std::cout << "Max Attempts: " << config.maxAttempts << "\n";
+
+    for (size_t step = 0; step < gridHistory.size(); step++) {
+        std::cout << "\nStep" << step << ":\n";
+        const auto& snapshot = gridHistory[step];
+        for (const auto& row : snapshot) {
+            for (bool cell : row) {
+                std::cout << (cell ? '0' : '.');
+            }
+            std::cout << "\n";
+        }
+    }
 }

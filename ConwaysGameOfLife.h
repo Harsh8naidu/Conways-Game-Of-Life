@@ -12,6 +12,8 @@ public:
     void Credits();
     void ExitGame();
 
+    GameConfig DefaultGameConfig();
+
 protected:
     GameConfig config;
     Grid* grid = nullptr;
@@ -21,4 +23,5 @@ protected:
     void HandleMenuChoice(int choice);
 
     GameConfig GetGameSetupFromUser();
+    std::string AskUserForSaveFile();
 };
