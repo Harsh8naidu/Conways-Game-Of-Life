@@ -94,7 +94,8 @@ void ConwaysGameOfLife::Credits()
 
 void ConwaysGameOfLife::ExitGame()
 {
-    
+    std::cout << "Exiting Game. Goodbye!" << std::endl;
+    std::exit(0);
 }
 
 GameConfig ConwaysGameOfLife::DefaultGameConfig()
