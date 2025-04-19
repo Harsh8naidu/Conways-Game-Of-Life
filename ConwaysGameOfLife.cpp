@@ -90,6 +90,7 @@ void ConwaysGameOfLife::LoadGame()
 
 void ConwaysGameOfLife::Credits()
 {
+    std::cout << "\nProgammer: Harsh Naidu" << std::endl;
 }
 
 void ConwaysGameOfLife::ExitGame()
