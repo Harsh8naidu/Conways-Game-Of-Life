@@ -191,11 +191,6 @@ void ExperimentManager::DisplayLoadedExperiment() const {
     for (size_t step = 0; step < gridHistory.size(); step++) {
         std::cout << "\nStep " << step << ":\n" << std::endl;
         const auto& snapshot = gridHistory[step];
-        for (const auto& row : snapshot) {
-            for (bool cell : row) {
-                std::cout << (cell ? '0' : '.');
-            }
-            std::cout << "\n";
-        }
+        Grid::DisplayGrid(snapshot);
     }
 }
