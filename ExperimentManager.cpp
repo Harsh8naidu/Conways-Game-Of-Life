@@ -8,6 +8,7 @@
 #include "ExperimentManager.h"
 #include "PatternDetector.h"
 #include "ConsoleUtils.h"
+#include "StringUtils.h";
 
 
 ExperimentManager::ExperimentManager(const GameConfig& config) : config(config), grid(config) {}
@@ -115,10 +116,11 @@ void ExperimentManager::LoadExperimentFromFile(const std::string& filename) {
     bool readingConfig = false;
 
     while (std::getline(inFile, str)) {
+        Trim(str);
+
         if (str == "#CONFIG") {
             DeserializeConfig(inFile);
         } else if (str == "---") { // Separator between simulation steps
-            std::cout << "snapshot pushed in gridhistory" << std::endl;
             gridHistory.push_back(snapshot);
             snapshot.clear();
         } else if (!str.empty() && (str.find('1') != std::string::npos || str.find('0') != std::string::npos)) {
@@ -187,7 +189,7 @@ void ExperimentManager::DisplayLoadedExperiment() const {
     std::cout << "Max Attempts: " << config.maxAttempts << "\n";
 
     for (size_t step = 0; step < gridHistory.size(); step++) {
-        std::cout << "\nStep" << step << ":\n";
+        std::cout << "\nStep " << step << ":\n" << std::endl;
         const auto& snapshot = gridHistory[step];
         for (const auto& row : snapshot) {
             for (bool cell : row) {
