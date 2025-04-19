@@ -132,12 +132,14 @@
     <ClCompile Include="ConwaysGameOfLife.cpp" />
     <ClCompile Include="ExperimentManager.cpp" />
     <ClCompile Include="PatternDetector.cpp" />
+    <ClCompile Include="StringUtils.cpp" />
     <ClInclude Include="ConwaysGameOfLife.h" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="ExperimentManager.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="PatternDetector.h" />
+    <ClInclude Include="StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleUtils.h" />
