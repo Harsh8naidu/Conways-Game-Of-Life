@@ -157,7 +157,7 @@ void ExperimentManager::SerializeConfig(std::ofstream& outFile) const {
 void ExperimentManager::DeserializeConfig(std::ifstream& inFile) {
     std::string str;
     while (std::getline(inFile, str)) {
-        if (str == "ENDCONFIG") break;
+        if (str == "#ENDCONFIG") break;
 
         std::istringstream iss(str);
         std::string key;
