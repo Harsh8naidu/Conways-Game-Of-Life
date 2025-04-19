@@ -1,8 +1,7 @@
 #include "ConsoleUtils.h"
 #include <cstdlib>
 
-void ClearConsole()
-{
+void ClearConsole() {
     // Clear the console for the depending on the OS
 #if defined (_WIN32)
     system("cls");

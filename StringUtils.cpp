@@ -2,8 +2,7 @@
 #include <algorithm>
 #include <cctype>
 
-void Trim(std::string& s)
-{
+void Trim(std::string& s) {
     // Trim leading spaces
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
         return !std::isspace(ch);

@@ -50,8 +50,7 @@ const std::unordered_map<std::string, std::vector<std::pair<int, int>>> PatternD
     {"diehard", PatternDetector::diehardOffsets}
 };
 
-const std::vector<std::string> PatternDetector::GetAvailablePatterns()
-{
+const std::vector<std::string> PatternDetector::GetAvailablePatterns() {
     std::vector<std::string> availablePatterns;
     availablePatterns.reserve(patternOffsets.size());
     for (const auto& it : patternOffsets) {
@@ -60,8 +59,7 @@ const std::vector<std::string> PatternDetector::GetAvailablePatterns()
     return availablePatterns;
 }
 
-bool PatternDetector::ContainsPattern(const std::vector<std::vector<bool>>& grid, std::string pattern)
-{
+bool PatternDetector::ContainsPattern(const std::vector<std::vector<bool>>& grid, std::string pattern) {
     auto it = patternOffsets.find(pattern);
     if (it == patternOffsets.end()) {
         return false;

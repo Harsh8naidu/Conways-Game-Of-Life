@@ -9,13 +9,11 @@
 
 Grid::Grid(const GameConfig& config) 
     : rows(config.rows), columns(config.columns), gridSize(config.rows * config.columns), aliveCells(config.aliveCells), 
-      steps(config.steps), currentGrid(config.rows, std::vector<bool>(config.columns, false))
-{
+      steps(config.steps), currentGrid(config.rows, std::vector<bool>(config.columns, false)) {
     PlaceAliveCells(); // randomly set alive cells
 }
 
-Grid::Grid(std::string filename)
-{
+Grid::Grid(std::string filename) {
     std::ifstream filestream(filename);
 
     if (!filestream.is_open()) {
@@ -34,8 +32,7 @@ Grid::Grid(std::string filename)
     DisplayGrid();
 }
 
-void Grid::DisplayGrid()
-{
+void Grid::DisplayGrid() {
     // Print the top border
     std::cout << ".";
     for (int i = 0; i < columns; i++) {
@@ -56,8 +53,7 @@ void Grid::DisplayGrid()
     }
 }
 
-void Grid::DisplayGrid(const std::vector<std::vector<bool>>& gridToDisplay)
-{
+void Grid::DisplayGrid(const std::vector<std::vector<bool>>& gridToDisplay) {
     int rows = gridToDisplay.size();
     if (rows == 0) return;
 
@@ -80,8 +76,7 @@ void Grid::DisplayGrid(const std::vector<std::vector<bool>>& gridToDisplay)
 }
 
 
-void Grid::PlaceAliveCells()
-{
+void Grid::PlaceAliveCells() {
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<> rowDist(0, rows - 1);
@@ -100,8 +95,7 @@ void Grid::PlaceAliveCells()
     }
 }
 
-int Grid::CountLiveNeighbours(int row, int column)
-{
+int Grid::CountLiveNeighbours(int row, int column) {
     // Define the 8 offsets for neighbours (row_offset, col_offset)
     int offset[8][2] = {
         {-1, -1}, {-1, 0}, {-1, +1}, // Top-left, Top-middle, Top-right
@@ -125,8 +119,7 @@ int Grid::CountLiveNeighbours(int row, int column)
     return liveNeighbours;
 }
 
-void Grid::SimulateStep()
-{
+void Grid::SimulateStep() {
     std::vector<std::vector<bool>> nextGrid = std::vector<std::vector<bool>>(rows, std::vector<bool>(columns, false));
 
     for (int i = 0; i < rows; i++) {
@@ -134,32 +127,22 @@ void Grid::SimulateStep()
             int liveNeighbours = CountLiveNeighbours(i, j);
             // if the current cell is alive
             if (currentGrid[i][j]) {
-                // if an alive cell has fewer than two live neighbours -> dies (underpopulation)
-                if (currentGrid[i][j] && liveNeighbours < 2) {
+                if (currentGrid[i][j] && liveNeighbours < 2) { // if an alive cell has fewer than two live neighbours -> dies (underpopulation)
                     nextGrid[i][j] = false;
-                }
-                // if an alive cell has two or three live neighbours -> lives
-                else if (currentGrid[i][j] && (liveNeighbours == 2 || liveNeighbours == 3)) {
+                } else if (currentGrid[i][j] && (liveNeighbours == 2 || liveNeighbours == 3)) { // if an alive cell has two or three live neighbours -> lives
                     nextGrid[i][j] = true;
-                }
-                // if an live cell has more than three live neighbours -> dies (overpopulation)
-                else if (currentGrid[i][j] && liveNeighbours > 3) {
+                } else if (currentGrid[i][j] && liveNeighbours > 3) { // if an live cell has more than three live neighbours -> dies (overpopulation)
                     nextGrid[i][j] = false;
                 }
-            }
-            // if a dead cell has exactly three live neighbours -> becomes live cell (reproduction)
-            else if (!currentGrid[i][j] && liveNeighbours == 3) {
+            } else if (!currentGrid[i][j] && liveNeighbours == 3) { // if a dead cell has exactly three live neighbours -> becomes live cell (reproduction)
                 nextGrid[i][j] = true;
             }
-            
         }
     }
-
     currentGrid = nextGrid;
 }
 
-void Grid::RunSimulation(int delayMs)
-{
+void Grid::RunSimulation(int delayMs) {
     int runSteps = steps == 0 ? 1 : steps;  // default to 1 step if steps not set
 
     for (int i = 0; i < runSteps; i++) {

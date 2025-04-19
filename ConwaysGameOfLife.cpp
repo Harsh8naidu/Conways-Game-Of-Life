@@ -5,20 +5,15 @@
 #include "PatternDetector.h"
 #include "ExperimentManager.h"
 
-ConwaysGameOfLife::ConwaysGameOfLife()
-{
-    
-}
+ConwaysGameOfLife::ConwaysGameOfLife() {}
 
-void ConwaysGameOfLife::MainMenu()
-{
+void ConwaysGameOfLife::MainMenu() {
     DisplayMenuOptions();
     int choice = GetMenuChoiceFromUser();
     HandleMenuChoice(choice);
 }
 
-void ConwaysGameOfLife::DisplayMenuOptions()
-{
+void ConwaysGameOfLife::DisplayMenuOptions() {
     std::cout << "Welcome to Conway's Game of Life" << std::endl;
     std::cout << std::endl;
     // Menu options
@@ -28,8 +23,7 @@ void ConwaysGameOfLife::DisplayMenuOptions()
     std::cout << "4. Exit Game" << std::endl;
 }
 
-int ConwaysGameOfLife::GetMenuChoiceFromUser()
-{
+int ConwaysGameOfLife::GetMenuChoiceFromUser() {
     std::cout << std::endl;
     std::cout << "Enter an Input: ";
     int input;
@@ -37,8 +31,7 @@ int ConwaysGameOfLife::GetMenuChoiceFromUser()
     return input;
 }
 
-void ConwaysGameOfLife::HandleMenuChoice(int choice)
-{
+void ConwaysGameOfLife::HandleMenuChoice(int choice) {
     switch (choice) {
     case 1:
         StartGame();
@@ -60,8 +53,7 @@ void ConwaysGameOfLife::HandleMenuChoice(int choice)
     }
 }
 
-void ConwaysGameOfLife::StartGame()
-{
+void ConwaysGameOfLife::StartGame() {
     std::cout << std::endl;
     std::cout << "Starting Game..." << std::endl;
 
@@ -79,8 +71,7 @@ void ConwaysGameOfLife::StartGame()
     grid->RunSimulation();
 }
 
-void ConwaysGameOfLife::LoadGame()
-{
+void ConwaysGameOfLife::LoadGame() {
     std::string filename = AskUserForSaveFile();
     GameConfig config = DefaultGameConfig();
     ExperimentManager experiment(config);
@@ -88,19 +79,16 @@ void ConwaysGameOfLife::LoadGame()
     experiment.DisplayLoadedExperiment();
 }
 
-void ConwaysGameOfLife::Credits()
-{
+void ConwaysGameOfLife::Credits() {
     std::cout << "\nProgammer: Harsh Naidu" << std::endl;
 }
 
-void ConwaysGameOfLife::ExitGame()
-{
+void ConwaysGameOfLife::ExitGame() {
     std::cout << "Exiting Game. Goodbye!" << std::endl;
     std::exit(0);
 }
 
-GameConfig ConwaysGameOfLife::DefaultGameConfig()
-{
+GameConfig ConwaysGameOfLife::DefaultGameConfig() {
     GameConfig defaultConfig;
     defaultConfig.rows = 10;
     defaultConfig.columns = 10;
@@ -112,8 +100,7 @@ GameConfig ConwaysGameOfLife::DefaultGameConfig()
     return defaultConfig;
 }
 
-GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
-{
+GameConfig ConwaysGameOfLife::GetGameSetupFromUser() {
     GameConfig gameConfig;
 
     std::string ans;
@@ -162,8 +149,7 @@ GameConfig ConwaysGameOfLife::GetGameSetupFromUser()
     return gameConfig;
 }
 
-std::string ConwaysGameOfLife::AskUserForSaveFile() 
-{
+std::string ConwaysGameOfLife::AskUserForSaveFile() {
     // List all the save files in the Saves directory
     std::filesystem::path directoryPath = "Assets/Saves/";
 
@@ -173,8 +159,7 @@ std::string ConwaysGameOfLife::AskUserForSaveFile()
         for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
             std::cout << entry.path().filename() << std::endl;
         }
-    }
-    else {
+    } else {
         std::cerr << "Directory not found." << std::endl;
         return "";
     }
