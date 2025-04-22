@@ -143,9 +143,10 @@ void Grid::SimulateStep() {
 }
 
 void Grid::RunSimulation(int delayMs) {
-    int runSteps = steps == 0 ? 1 : steps;  // default to 1 step if steps not set
+    isRunning = true;
+    int runSteps = steps == 0 ? INT_MAX : steps;  // default to 1 step if steps not set
 
-    for (int i = 0; i < runSteps; i++) {
+    for (int i = 0; i < runSteps && isRunning; i++) {
         SimulateAndDisplayStep(delayMs);
     }
 }

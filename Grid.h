@@ -2,6 +2,10 @@
 
 #include <vector>
 #include <string>
+#include <thread>
+#include <atomic>
+#include <chrono>
+
 #include "GameConfig.h"
 
 class Grid {
@@ -19,6 +23,9 @@ public:
     void RunSimulation(int delayMs = 300); // Calls SimulateStep() 'steps' times
 
     void SimulateAndDisplayStep(int delayMs);
+
+    std::atomic<bool> isRunning{ false };
+    std::thread simulationThread;
 
 protected:
     int rows = 0;

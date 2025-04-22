@@ -3,9 +3,15 @@
 
 #include "ConwaysGameOfLife.h"
 #include "PatternDetector.h"
-#include "ExperimentManager.h"
+#include "ConsoleUtils.h"
 
 ConwaysGameOfLife::ConwaysGameOfLife() {}
+
+ConwaysGameOfLife::~ConwaysGameOfLife()
+{
+    delete grid;
+    delete experiment;
+}
 
 void ConwaysGameOfLife::MainMenu() {
     DisplayMenuOptions();
@@ -60,15 +66,22 @@ void ConwaysGameOfLife::StartGame() {
     config = GetGameSetupFromUser();
     
     if (!config.pattern.empty()) {
-        ExperimentManager experiment(config);
-        experiment.RunExperiment();
-        return;
+        // Pattern-based experiment
+        experiment = new ExperimentManager(config);
+        experimentThread = std::thread([this]() { experiment->RunExperiment(); });
+        experimentThread.detach();
+    }
+    else {
+        // Normal simulation
+        grid = new Grid(config);
+        grid->DisplayGrid();
+        std::cout << std::endl;
+
+        grid->simulationThread = std::thread(&Grid::RunSimulation, grid, 200);
+        grid->simulationThread.detach();
     }
 
-    grid = new Grid(config);
-    grid->DisplayGrid();
-    std::cout << std::endl;
-    grid->RunSimulation();
+    ListenForEscapeKey(); // Listen for ESC to quie
 }
 
 void ConwaysGameOfLife::LoadGame() {
@@ -171,4 +184,22 @@ std::string ConwaysGameOfLife::AskUserForSaveFile() {
 
     std::filesystem::path fullPath = directoryPath / filename;
     return fullPath.string();
+}
+
+void ConwaysGameOfLife::ListenForEscapeKey() {
+    std::cout << "\nPress ESC to stop the simulation.\n";
+
+    while (true) {
+        if (IsEscapeKeyPressed()) {
+            std::exit(0);
+            std::cout << "\nESC pressed. Stopping simulation...\n";
+            grid->isRunning = false;
+            break;
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    // Allow time for simulation thread to stop
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
 }
