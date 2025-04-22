@@ -7,9 +7,9 @@
 #include "Grid.h"
 #include "ConsoleUtils.h"
 
-Grid::Grid(const GameConfig& config) 
+Grid::Grid(const GameConfig& config, PauseController* pauseController) 
     : rows(config.rows), columns(config.columns), gridSize(config.rows * config.columns), aliveCells(config.aliveCells), 
-      steps(config.steps), currentGrid(config.rows, std::vector<bool>(config.columns, false)) {
+      steps(config.steps), currentGrid(config.rows, std::vector<bool>(config.columns, false)), pauseController(pauseController) {
     PlaceAliveCells(); // randomly set alive cells
 }
 
@@ -128,6 +128,11 @@ void Grid::RunSimulation(int delayMs) {
     int runSteps = steps == 0 ? INT_MAX : steps;  // default to 1 step if steps not set
 
     for (int i = 0; i < runSteps && isRunning; i++) {
+        {
+            std::unique_lock<std::mutex> lock(pauseController->mtx);
+            pauseController->cv.wait(lock, [this]() { return !pauseController->isPaused; });
+        }
+
         SimulateAndDisplayStep(delayMs);
     }
 }

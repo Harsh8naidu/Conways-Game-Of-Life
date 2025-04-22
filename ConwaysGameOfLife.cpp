@@ -67,13 +67,13 @@ void ConwaysGameOfLife::StartGame() {
     
     if (!config.pattern.empty()) {
         // Pattern-based experiment
-        experiment = new ExperimentManager(config);
+        experiment = new ExperimentManager(config, &pauseController);
         experimentThread = std::thread([this]() { experiment->RunExperiment(); });
         experimentThread.detach();
     }
     else {
         // Normal simulation
-        grid = new Grid(config);
+        grid = new Grid(config, &pauseController);
         grid->DisplayGrid();
         std::cout << std::endl;
 
@@ -81,13 +81,13 @@ void ConwaysGameOfLife::StartGame() {
         grid->simulationThread.detach();
     }
 
-    ListenForEscapeKey(); // Listen for ESC to quie
+    ListenForUserInput(); // Listen for ESC key to quit the simulation or experiment
 }
 
 void ConwaysGameOfLife::LoadGame() {
     std::string filename = AskUserForSaveFile();
     GameConfig config = DefaultGameConfig();
-    ExperimentManager experiment(config);
+    ExperimentManager experiment(config, &pauseController);
     experiment.LoadExperimentFromFile(filename);
     experiment.DisplayLoadedExperiment();
 }
@@ -186,20 +186,36 @@ std::string ConwaysGameOfLife::AskUserForSaveFile() {
     return fullPath.string();
 }
 
-void ConwaysGameOfLife::ListenForEscapeKey() {
-    std::cout << "\nPress ESC to stop the simulation.\n";
+void ConwaysGameOfLife::ListenForUserInput() {
+    std::cout << "\nPress ESC to stop, P to pause, R to resume the simulation.\n";
 
     while (true) {
-        if (IsEscapeKeyPressed()) {
-            std::exit(0);
-            std::cout << "\nESC pressed. Stopping simulation...\n";
-            grid->isRunning = false;
-            break;
+        if (IsKeyPressed()) {
+            int key = GetKeyPressed();
+
+            if (key == 27) { // ESC
+                std::cout << "\nESC pressed. Stopping simulation...\n";
+                if (grid) grid->isRunning = false;
+                if (experiment) experiment->isRunning = false;
+                break;
+            }
+            else if (key == 'p' || key == 'P') {
+                std::lock_guard<std::mutex> lock(pauseController.mtx);
+                pauseController.isPaused = true;
+                std::cout << "\nPaused.\n";
+            }
+            else if (key == 'r' || key == 'R') {
+                {
+                    std::lock_guard<std::mutex> lock(pauseController.mtx);
+                    pauseController.isPaused = false;
+                }
+                pauseController.cv.notify_all();
+                std::cout << "\nResumed.\n";
+            }
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
-    // Allow time for simulation thread to stop
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
 }

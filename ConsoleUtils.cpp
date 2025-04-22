@@ -9,6 +9,9 @@
     #include <fcntl.h>
 #endif
 
+// -----------------------
+// Cross-platform Clear Console
+// -----------------------
 void ClearConsole() {
     // Clear the console for the depending on the OS
 #if defined (_WIN32)
@@ -20,35 +23,59 @@ void ClearConsole() {
 #endif
 }
 
-bool IsEscapeKeyPressed() {
+// ----------------------
+// Windows Key Press Handling
+// ----------------------
 #if defined (_WIN32)
-    if (_kbhit()) {
-        int key = _getch();
-        return key == 27; // ESC key
-    }
-    return false;
 
-#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__) || defined(__APPLE__)
-    // Set terminal to non-blocking, no echo
+bool IsKeyPressed() {
+    return _kbhit();
+}
+
+int GetKeyPressed() {
+    if (_kbhit()) {
+        return _getch();
+    }
+    return -1; // No key pressed
+}
+
+// ----------------------
+// Linux/macOS Key Press Handling
+// ----------------------
+#elif defined (__linux__) || defined (__APPLE__)
+
+bool IsKeyPressed() {
     struct termios oldt, newt;
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
     newt.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
-    // Set stdin to non-blocking
     int oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
     fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
 
     int ch = getchar();
 
-    // Reset terminal
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
     fcntl(STDIN_FILENO, F_SETFL, oldf);
 
     if (ch != EOF) {
-        return ch == 27; // ESC key
+        ungetc(ch, stdin); // Put it back for GetKeyPressed
+        return true;
     }
     return false;
-#endif
 }
+
+int GetKeyPressed() {
+    struct termios oldt, newt;
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+    int ch = getchar();
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    return ch;
+}
+#endif

@@ -8,16 +8,21 @@
 #include "ExperimentManager.h"
 #include "PatternDetector.h"
 #include "ConsoleUtils.h"
-#include "StringUtils.h";
+#include "StringUtils.h"
 
 
-ExperimentManager::ExperimentManager(const GameConfig& config) : config(config), grid(config) {}
+ExperimentManager::ExperimentManager(const GameConfig& config, PauseController* pauseController) : config(config), grid(config, pauseController), pauseController(pauseController) {}
 
 bool ExperimentManager::RunExperiment() {
     int attemptCount = 0;
     int extraAttempts = 5;
     
-    while (attemptCount < config.maxAttempts) {
+    while (attemptCount < config.maxAttempts && isRunning) {
+        {
+            std::unique_lock<std::mutex> lock(pauseController->mtx);
+            pauseController->cv.wait(lock, [this]() { return !pauseController->isPaused;  });
+        }
+
         grid.SimulateAndDisplayStep(300);
 
         gridHistory.push_back(grid.GetCurrentGrid());
@@ -74,7 +79,14 @@ bool ExperimentManager::RunExperiment() {
         ++attemptCount;
     }
 
-    std::cout << "Pattern not found after max attempts.\n";
+    if (isRunning) {
+        std::cout << "Pattern not found after max attempts.\n";
+    }
+    else {
+        std::cout << "Pattern not found after max attempts.\n";
+        std::cout << "Thank you for playing!\n";
+    }
+    
     return false;
 }
 

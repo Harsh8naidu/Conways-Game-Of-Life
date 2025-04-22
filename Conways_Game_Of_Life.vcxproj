@@ -139,6 +139,7 @@
     <ClInclude Include="ExperimentManager.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="PatternDetector.h" />
+    <ClInclude Include="PauseController.h" />
     <ClInclude Include="StringUtils.h" />
   </ItemGroup>
   <ItemGroup>

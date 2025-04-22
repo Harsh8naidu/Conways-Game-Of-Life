@@ -2,9 +2,12 @@
 #include <thread>
 #include <atomic>
 #include <chrono>
+#include <mutex>
+#include <condition_variable>
 
 #include "Grid.h"
 #include "ExperimentManager.h"
+#include "PauseController.h"
 
 class ConwaysGameOfLife {
 public:
@@ -21,6 +24,7 @@ public:
 
 protected:
     GameConfig config;
+    PauseController pauseController;
     Grid* grid = nullptr;
     ExperimentManager* experiment = nullptr;
     std::thread experimentThread;
@@ -31,5 +35,5 @@ protected:
 
     GameConfig GetGameSetupFromUser();
     std::string AskUserForSaveFile();
-    void ListenForEscapeKey();
+    void ListenForUserInput();
 };

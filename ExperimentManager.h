@@ -3,10 +3,13 @@
 
 #include "Grid.h"
 #include "GameConfig.h"
+#include "PauseController.h"
 
 class ExperimentManager {
 public:
-    ExperimentManager(const GameConfig& config);
+    std::atomic<bool> isRunning = true;
+
+    ExperimentManager(const GameConfig& config, PauseController* pauseController);
     bool RunExperiment();
     void LoadExperimentFromFile(const std::string& filename);
     void DisplayLoadedExperiment() const;
@@ -19,4 +22,6 @@ private:
     void SaveExperimentToFile(const std::string& filename);
     void SerializeConfig(std::ofstream& outFile) const;
     void DeserializeConfig(std::ifstream& inFile);
+
+    PauseController* pauseController;
 };

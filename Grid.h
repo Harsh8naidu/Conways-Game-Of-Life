@@ -7,10 +7,11 @@
 #include <chrono>
 
 #include "GameConfig.h"
+#include "PauseController.h"
 
 class Grid {
 public:
-    Grid(const GameConfig& config);
+    Grid(const GameConfig& config, PauseController* pauseController);
 
     const std::vector<std::vector<bool>>& GetCurrentGrid() const { return currentGrid; };
 
@@ -34,4 +35,6 @@ protected:
     int steps = 0;
 
     std::vector<std::vector<bool>> currentGrid;
+    
+    PauseController* pauseController;
 };

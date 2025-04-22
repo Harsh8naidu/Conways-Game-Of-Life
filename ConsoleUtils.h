@@ -1,4 +1,5 @@
 #pragma once
 
 void ClearConsole();
-bool IsEscapeKeyPressed();
+bool IsKeyPressed();
+int GetKeyPressed();
