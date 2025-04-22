@@ -11,7 +11,6 @@
 class Grid {
 public:
     Grid(const GameConfig& config);
-    Grid(std::string filename);
 
     const std::vector<std::vector<bool>>& GetCurrentGrid() const { return currentGrid; };
 

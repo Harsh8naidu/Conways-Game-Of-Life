@@ -13,25 +13,6 @@ Grid::Grid(const GameConfig& config)
     PlaceAliveCells(); // randomly set alive cells
 }
 
-Grid::Grid(std::string filename) {
-    std::ifstream filestream(filename);
-
-    if (!filestream.is_open()) {
-        std::cerr << "File not found!" << std::endl;
-        return;
-    }
-
-    // Read the filestream and assign the values
-    filestream >> rows;
-    filestream >> columns;
-    filestream.close();
-
-    gridSize = rows * columns;
-    currentGrid = std::vector<std::vector<bool>>(rows, std::vector<bool>(columns, true));
-
-    DisplayGrid();
-}
-
 void Grid::DisplayGrid() {
     // Print the top border
     std::cout << ".";
